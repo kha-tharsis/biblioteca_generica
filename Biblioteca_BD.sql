@@ -69,7 +69,7 @@ CREATE TABLE estado_registro(
 );
 
 CREATE TABLE registro(
-    id INT AUTO_INCREMENT
+    id INT AUTO_INCREMENT,
     usuario_id_fk INT,
     libro_id_fk INT,
     fecha_solicitud DATE,
