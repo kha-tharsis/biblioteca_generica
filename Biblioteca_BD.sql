@@ -3,7 +3,7 @@ DROP DATABASE IF EXISTS biblioteca_generica;
 CREATE DATABASE biblioteca_generica;
 USE biblioteca_generica;
 
-CREATE TABLE categoria_libro(
+CREATE TABLE categoria(
     id INT AUTO_INCREMENT,
     categoria VARCHAR(30),
 
