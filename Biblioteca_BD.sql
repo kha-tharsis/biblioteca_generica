@@ -21,8 +21,7 @@ CREATE TABLE libro(
     numero_paginas INT,
     estado BIT DEFAULT 1,
 
-    PRIMARY KEY(id),
-    FOREIGN KEY(categoria_id_fk) REFERENCES categoria_libro(id)
+    PRIMARY KEY(id)
 );
 
 
@@ -74,7 +73,7 @@ CREATE TABLE registro(
     libro_id_fk INT,
     fecha_solicitud DATE,
     fecha_entrega DATE,
-    estado_registro_id_fk,
+    estado_registro_id_fk INT,
 
     PRIMARY KEY(id),
     FOREIGN KEY(usuario_id_fk) REFERENCES usuario(id),
