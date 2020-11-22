@@ -80,3 +80,26 @@ CREATE TABLE registro(
     FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
     FOREIGN KEY(estado_registro_id_fk) REFERENCES estado_registro(id)
 );
+
+
+DELIMITER //
+CREATE PROCEDURE agregarRegistro(IN _id_usuario INT,IN _id_libro INT,IN _fecha_solicitud VARCHAR(12),IN _fecha_limite VARCHAR(12))
+BEGIN
+
+    DECLARE limite_usuario TINYINT(1);
+    DECLARE libro_disponible TINYINT(1);
+
+    SET limite_usuario = (SELECT COUNT(*) FROM registro WHERE usuario_id_fk = _id_usuario AND (estado_registro_id_fk = 2 OR estado_registro_id_fk = 3));
+    SET libro_disponible = (SELECT COUNT(*) FROM libro WHERE id = _id_libro AND estado = 1);
+
+    IF limite_usuario >= 2 THEN
+            SELECT 'Este usuario ya tiene 2 libros en su poder' AS 'info';
+    ELSE
+        IF libro_disponible = 1 THEN 
+            INSERT INTO agregarRegistro VALUES (NULL,_id_usuario,_id_libro,_fecha_solicitud,_fecha_limite,1);
+        ELSE
+            SELECT 'Este libro no esta disponible' AS 'info';    
+        END IF;
+    END IF;
+END //
+DELIMITER ;
