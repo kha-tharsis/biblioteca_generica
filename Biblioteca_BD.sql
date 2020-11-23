@@ -11,7 +11,16 @@ CREATE TABLE categoria(
     UNIQUE(categoria)
 );
 
+INSERT INTO categoria(categoria) VALUES ('Biografía'),
+					('Cuento'),
+					('Drama'),
+					('Ficción'),
+					('Horror'),
+					('Novela'),
+					('Suspenso'),
+					('Sagrado');
 
+					
 CREATE TABLE libro(
     id INT AUTO_INCREMENT,
     titulo VARCHAR(30),
@@ -21,8 +30,24 @@ CREATE TABLE libro(
     numero_paginas INT,
     estado BIT DEFAULT 1,
 
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
 );
+
+SET @biografia_id = (SELECT id FROM categoria WHERE categoria = 'Biografía');
+SET @cuento_id    = (SELECT id FROM categoria WHERE categoria = 'Cuento');
+SET @drama_id     = (SELECT id FROM categoria WHERE categoria = 'Drama');
+SET @ficcion_id   = (SELECT id FROM categoria WHERE categoria = 'Ficción');
+SET @horror_id    = (SELECT id FROM categoria WHERE categoria = 'Horror');
+SET @novela_id    = (SELECT id FROM categoria WHERE categoria = 'Novela');
+SET @suspenso_id  = (SELECT id FROM categoria WHERE categoria = 'Suspenso');
+SET @sagrado_id   = (SELECT id FROM categoria WHERE categoria = 'Sagrado');
+
+INSERT INTO libro(titulo,fecha_publicacion,autor,categoria_id_fk,numero_paginas) VALUES('Le Petit Prince','1943-09-06','Antoine de Saint-Exupéry',@drama_id,96),
+										       ('The Pit and the Pendulum','1836-05-21','Edgar Allan Poe',@cuento_id,344),
+										       ('Misery','1987-06-08','Stephen King',@horror_id,320),
+										       ('The Da Vinci Code','2003-04-20','Dan Brown',@suspenso_id,656),
+										       ('Метро 2033','2005-06-12','Dmitry Glukhovsky',@novela_id,348);
 
 
 CREATE TABLE categoria_libro(
@@ -35,6 +60,12 @@ CREATE TABLE categoria_libro(
     FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
 );
 
+INSERT INTO categoria_libro(libro_id_fk,categoria_id_fk) VALUES(1,6),
+				  			       (2,2),
+							       (3,5),
+							       (4,7),
+							       (5,6);
+
 CREATE TABLE tipo_usuario(
     id INT AUTO_INCREMENT,
     tipo_usuario VARCHAR(30),
@@ -42,11 +73,13 @@ CREATE TABLE tipo_usuario(
     PRIMARY KEY(id)
 );
 
+INSERT INTO tipo_usuario(tipo_usuario) VALUES('Administrador'),
+					     ('Usuario');
 
 CREATE TABLE usuario(
     id INT AUTO_INCREMENT,
     rut VARCHAR(13),
-    pass VARCHAR(30),
+    pass VARCHAR(64),
     nombres VARCHAR(50),
     apellidos VARCHAR(50),
     correo VARCHAR(50),
@@ -60,12 +93,20 @@ CREATE TABLE usuario(
     UNIQUE (correo)
 );
 
+SET @admin_id = (SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Administrador');
+SET @user_id  = (SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Usuario');
+
+INSERT INTO usuario VALUES(NULL,'12123456-7',SHA2('111',0),'Eduardo Alberto','Pérez Figueroa','eapf@gmail.com','1985-10-22',982310581,@admin_id),
+			  (NULL,'17152325-7',SHA2('222',0),'John Paul','Rey Casto','doggo@gmail.com','1992-12-11',923419730,@user_id);
+
+
 CREATE TABLE estado_registro(
     id INT AUTO_INCREMENT,
-    estado VARCHAR(20),
+    estado VARCHAR(30),
 
     PRIMARY KEY (id)
 );
+
 
 CREATE TABLE registro(
     id INT AUTO_INCREMENT,
