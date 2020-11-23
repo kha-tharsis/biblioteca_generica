@@ -137,7 +137,7 @@ BEGIN
             SELECT 'Este usuario ya tiene 2 libros en su poder' AS 'info';
     ELSE
         IF libro_disponible = 1 THEN 
-            INSERT INTO agregarRegistro VALUES (NULL,_id_usuario,_id_libro,_fecha_solicitud,_fecha_limite,1);
+            INSERT INTO registro VALUES (NULL,_id_usuario,_id_libro,_fecha_solicitud,_fecha_limite,1);
         ELSE
             SELECT 'Este libro no esta disponible' AS 'info';    
         END IF;
