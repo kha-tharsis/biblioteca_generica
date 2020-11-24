@@ -23,7 +23,7 @@ INSERT INTO categoria(categoria) VALUES ('Biografía'),
 					
 CREATE TABLE libro(
     id INT AUTO_INCREMENT,
-    titulo VARCHAR(30),
+    titulo VARCHAR(50),
     fecha_publicacion DATE,
     autor VARCHAR(50),
     categoria_id_fk INT,
@@ -121,6 +121,29 @@ CREATE TABLE registro(
     FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
     FOREIGN KEY(estado_registro_id_fk) REFERENCES estado_registro(id)
 );
+
+CREATE TABLE historial_libro(
+    id INT AUTO_INCREMENT,
+    libro_id_fk INT,
+    titulo VARCHAR(50),
+    fecha_publicacion DATE,
+    autor VARCHAR(50),
+    categoria_id_fk INT,
+    cantidad_paginas INT,
+    fecha_cambio DATETIME,
+    
+    PRIMARY KEY(id),
+    FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
+    FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
+);
+
+DELIMITER //
+CREATE TRIGGER trigger_historial_libro BEFORE UPDATE ON libro
+    FOR EACH ROW
+BEGIN
+    INSERT INTO historial_libro VALUES(NULL,OLD.id,OLD.titulo,OLD.fecha_publicacion,OLD.autor,OLD.categoria_id_fk,OLD.numero_paginas,NOW());
+END //
+DELIMITER ;
 
 
 DELIMITER //
