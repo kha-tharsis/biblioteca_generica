@@ -145,6 +145,21 @@ BEGIN
 END //
 DELIMITER ;
 
+-- Trigger para cambiar el estado de un libro a no disponible al hacer una reserva
+DELIMITER //
+CREATE TRIGGER trigger_estado_libro AFTER INSERT ON registro
+    FOR EACH ROW
+BEGIN
+    DECLARE estado_libro TINYINT(1);
+    SET estado_libro = (SELECT estado FROM libro WHERE id = NEW.libro_id_fk);
+    IF estado_libro = 0 THEN
+        UPDATE libro SET estado = 1 WHERE id = NEW.libro_id_fk;
+    ELSE 
+        UPDATE libro SET estado = 0 WHERE id = NEW.libro_id_fk;
+    END IF;    
+END //
+DELIMITER ;
+
 -- Procedimiento para limitar el pedido de libros
 DELIMITER //
 CREATE PROCEDURE agregarRegistro(IN _id_usuario INT,IN _id_libro INT,IN _fecha_solicitud VARCHAR(12),IN _fecha_limite VARCHAR(12))
@@ -201,3 +216,5 @@ DELIMITER ;
 
 -- CALL para probar
 CALL agregar_libro('The Call of Cthulhu','1928-02-05','H.P. Lovecraft','Cuento',54);
+
+
