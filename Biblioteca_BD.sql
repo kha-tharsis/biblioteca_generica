@@ -136,7 +136,7 @@ CREATE TABLE historial_libro(
     FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
     FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
 );
-
+-- Trigger para agregar un historial de libros al hacer un update
 DELIMITER //
 CREATE TRIGGER trigger_historial_libro BEFORE UPDATE ON libro
     FOR EACH ROW
@@ -145,7 +145,7 @@ BEGIN
 END //
 DELIMITER ;
 
-
+-- Procedimiento para limitar el pedido de libros
 DELIMITER //
 CREATE PROCEDURE agregarRegistro(IN _id_usuario INT,IN _id_libro INT,IN _fecha_solicitud VARCHAR(12),IN _fecha_limite VARCHAR(12))
 BEGIN
@@ -167,3 +167,37 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
+
+-- Procedimiento para agregar un libro y añadirlo a la tabla categoria_libro
+DELIMITER //
+CREATE PROCEDURE agregar_libro(IN _titulo VARCHAR(50),IN _fechaPublicacion VARCHAR(12),IN _autor VARCHAR(50),IN _categoria VARCHAR(20),IN _paginas INT)
+BEGIN
+    DECLARE existe_libro TINYINT(1);
+    DECLARE existe_categoria TINYINT(1);
+    DECLARE id_libro INT;
+    DECLARE id_categoria INT;
+
+    SET existe_libro = (SELECT COUNT(*) FROM libro WHERE titulo = _titulo);
+    SET existe_categoria = (SELECT COUNT(*) FROM categoria WHERE categoria = _categoria);
+    
+    IF existe_categoria = 0 THEN 
+        INSERT INTO categoria VALUES (NULL,_categoria);
+	SELECT 'Se agregó la categoría' AS 'info';
+    END IF;
+
+    IF existe_libro = 0 THEN
+	SET id_categoria = (SELECT id FROM categoria WHERE categoria = _categoria);
+        INSERT INTO libro VALUES (NULL,_titulo,_fechaPublicacion,_autor,id_categoria,_paginas,1);
+	SELECT 'Se agregó el libro exitosamente' AS 'info';
+    END IF;
+
+    IF existe_libro = 0 OR existe_categoria = 0 THEN
+        SET id_libro = (SELECT id FROM libro WHERE titulo = _titulo);
+        SET id_categoria = (SELECT id FROM categoria WHERE categoria = _categoria);
+        INSERT INTO categoria_libro VALUES (NULL,id_libro,id_categoria);
+    END IF;
+END //
+DELIMITER ;
+
+-- CALL para probar
+CALL agregar_libro('The Call of Cthulhu','1928-02-05','H.P. Lovecraft','Cuento',54);
