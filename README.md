@@ -8,6 +8,9 @@ Diego Marchant | Juan Reyes
 
 **Descripción del proyecto**
 
-**Modelo E-R de su base de datos**
+**Modelo E-R de la Base de datos**
+
+![ER](img/BibliotecaER.png)
+
 
 **Cómo ejecutar el proyecto**
