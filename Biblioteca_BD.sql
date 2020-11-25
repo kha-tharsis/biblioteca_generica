@@ -217,4 +217,13 @@ DELIMITER ;
 -- CALL para probar
 CALL agregar_libro('The Call of Cthulhu','1928-02-05','H.P. Lovecraft','Cuento',54);
 
+-- Funcion que retorna la cantidad de libros disponibles(1) y no disponibles(0)
+DELIMITER //
+CREATE FUNCTION seleccionar_cantidad_libros(_estado INT) RETURNS INT
+BEGIN
+    RETURN (SELECT COUNT(libro.id) FROM libro WHERE estado = _estado);
+END //
+DELIMITER ;
 
+-- SELECT para probar la function
+SELECT seleccionar_cantidad_libros(1);
