@@ -1,4 +1,4 @@
-package prueba.dm.cl.model;
+package com.biblioteca_generica.model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
