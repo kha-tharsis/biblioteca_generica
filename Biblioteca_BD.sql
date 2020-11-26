@@ -107,6 +107,11 @@ CREATE TABLE estado_registro(
     PRIMARY KEY (id)
 );
 
+INSERT INTO estado_registro VALUES  (NULL,"Reservado"),
+                                    (NULL,"Esperando Devolución"),
+                                    (NULL,"Fecha limite exedida"),
+                                    (NULL,"Devuelto");
+
 
 CREATE TABLE registro(
     id INT AUTO_INCREMENT,
@@ -121,6 +126,13 @@ CREATE TABLE registro(
     FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
     FOREIGN KEY(estado_registro_id_fk) REFERENCES estado_registro(id)
 );
+
+INSERT INTO registro VALUES (NULL,1,1,"2020-10-22","2020-11-22",1),
+                            (NULL,2,2,"2020-10-26","2020-11-26",1);
+
+
+UPDATE registro SET estado_registro_id_fk = 4 WHERE id = 1;
+
 
 CREATE TABLE historial_libro(
     id INT AUTO_INCREMENT,
