@@ -38,5 +38,30 @@ public class DaoLibro {
 
         return list;
     }
-
+    public void insertarLibro(String titulo,String fecha_publicacion,String autor,int categoria,int n_paginas){
+        String consulta = "INSERT INTO libro VALUES(NULL,'"+titulo+"','"+fecha_publicacion+"','"+autor+"',"+categoria+","+n_paginas+")";
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .execute(consulta);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void updateLibro(int id,String titulo,String fecha_publicacion,String autor,int categoria,int n_paginas){
+        String consulta = "UPDATE libro " +
+                "SET titulo = '"+titulo+"'," +
+                "fecha_publicacion = '"+fecha_publicacion+"'," +
+                "autor = '"+autor+"'," +
+                "categoria_id_fk = "+categoria+"," +
+                "numero_paginas = "+n_paginas+"" +
+                "WHERE id ="+id+"";
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .execute(consulta);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }
