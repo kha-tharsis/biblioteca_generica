@@ -14,7 +14,7 @@ public class DaoLibro {
     {
         this.con = con;
     }
-    public List<Libro> getAllLibros(int ban_id ,int menor, int mayor){
+    public List<Libro> getAllLibros(){
         String sql = "SELECT * FROM libro";
         List<Libro> list = new ArrayList();
         try {
@@ -63,5 +63,42 @@ public class DaoLibro {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+    public List<Libro> filtrarLibro(String nombre_filtro,String parametro_filtro,int esString){
+        String consulta = "";
+        if(esString == 1){
+            consulta = "SELECT * FROM libro WHERE '"+nombre_filtro+"' LIKE '%"+parametro_filtro+"%'";
+        }
+        else if (esString == 0){
+            int filtro_num = 0;
+            try {
+                filtro_num = Integer.parseInt(parametro_filtro);
+            } catch (NumberFormatException excepcion) {
+
+            }
+            consulta = "SELECT * FROM libro WHERE '"+nombre_filtro+"' = "+filtro_num+"";
+        }
+
+        List<Libro> list = new ArrayList();
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(consulta);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String titulo = rs.getString("titulo");
+                String fecha_publicacion = rs.getString("fecha_publicacion");
+                String autor = rs.getString("autor");
+                int categoria_id = rs.getInt("categoria_id_fk");
+                int n_paginas = rs.getInt("numero_paginas");
+                int estado = rs.getInt("estado");
+                Libro l = new Libro(id,titulo,fecha_publicacion,autor,categoria_id,n_paginas,estado);
+                list.add(l);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 }
