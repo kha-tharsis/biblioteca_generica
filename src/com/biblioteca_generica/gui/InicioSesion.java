@@ -5,8 +5,8 @@ import com.biblioteca_generica.model.Conexion;
 import com.biblioteca_generica.model.Usuario;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
 import java.sql.SQLException;
 
 public class InicioSesion extends JFrame{
@@ -14,6 +14,7 @@ public class InicioSesion extends JFrame{
     private JTextField ruttxt;
     private JPasswordField passtxt;
     private JButton ingresarbtn;
+    private JLabel registrolbl;
 
     private DaoUsuario daoUsuario;
     private Conexion con;
@@ -22,7 +23,8 @@ public class InicioSesion extends JFrame{
     public InicioSesion(){
         super("Inicio de Sesión");
         setVisible(true);
-        setSize(400,200);
+        setSize(350,150);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(mainPanel);
@@ -52,6 +54,32 @@ public class InicioSesion extends JFrame{
                         JOptionPane.showMessageDialog(null,"User or password invalid");
                     }
                 }
+            }
+        });
+
+        registrolbl.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                CrearUsuario crear = new CrearUsuario();
+                crear.setVisible(true);
+            }
+        });
+
+
+        registrolbl.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                registrolbl.setForeground(Color.decode("#0900AF"));
+            }
+        });
+
+        mainPanel.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                registrolbl.setForeground(Color.black);
             }
         });
     }

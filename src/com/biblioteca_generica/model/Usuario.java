@@ -11,6 +11,8 @@ public class Usuario {
     int fono;
     int tipo_usuario;
 
+    public Usuario(){}
+
     public Usuario(int id, String rut, String pass, String nombres, String apellidos, String correo, String fecha_nacimiento, int fono, int tipo_usuario) {
         this.id = id;
         this.rut = rut;
@@ -21,6 +23,11 @@ public class Usuario {
         this.fecha_nacimiento = fecha_nacimiento;
         this.fono = fono;
         this.tipo_usuario = tipo_usuario;
+    }
+
+    public Usuario(String rut, String pass) {
+        this.rut = rut;
+        this.pass = pass;
     }
 
     public int getId() {

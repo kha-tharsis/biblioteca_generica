@@ -4,8 +4,14 @@ public class Estado_Registro {
     int id;
     String estado;
 
+    public Estado_Registro(){}
+
     public Estado_Registro(int id, String estado) {
         this.id = id;
+        this.estado = estado;
+    }
+
+    public Estado_Registro(String estado){
         this.estado = estado;
     }
 

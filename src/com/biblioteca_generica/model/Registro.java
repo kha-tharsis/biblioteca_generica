@@ -8,6 +8,8 @@ public class Registro {
     String fecha_entrega;
     int estado_registro_id;
 
+    public Registro(){}
+
     public Registro(int id, int usuario_id, int libro_id, String fecha_solicitud, String fecha_entrega, int estado_registro_id) {
         this.id = id;
         this.usuario_id = usuario_id;
