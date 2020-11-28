@@ -19,6 +19,7 @@ public class InicioSesion extends JFrame{
     private DaoUsuario daoUsuario;
     private Conexion con;
     private MainMenu mainMenu;
+    private MenuUsuario menuUsuario;
 
     public InicioSesion(){
         super("Inicio de Sesión");
@@ -47,9 +48,12 @@ public class InicioSesion extends JFrame{
                     JOptionPane.showMessageDialog(null,"Hay casillas vacías");
                 }else{
                     if (daoUsuario.ValidarUsuario(usuario)){
-                        int idUsuario = daoUsuario.getUserIdFromRut(rut);
-                        usuario.setId(idUsuario);
-                        SwingUtilities.invokeLater(()-> mainMenu = new MainMenu(null, usuario));
+                        Usuario u = daoUsuario.getUserFromRut(rut);
+                        if(u.getTipo_usuario() == 1){
+                            SwingUtilities.invokeLater(()-> mainMenu = new MainMenu(null, u));
+                        }else if(u.getTipo_usuario() == 2){
+                            SwingUtilities.invokeLater(()-> menuUsuario = new MenuUsuario(null,u));
+                        }
                     }else{
                         JOptionPane.showMessageDialog(null,"User or password invalid");
                     }
