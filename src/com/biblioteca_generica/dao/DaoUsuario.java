@@ -69,4 +69,17 @@ public class DaoUsuario {
             e.printStackTrace();
         }
     }
+    public void actualizarDatosUsuario(String correo,int fono,int id){
+        String sql = "UPDATE usuario " +
+                "SET correo = '"+correo+"'," +
+                "SET fono = "+fono+"" +
+                "WHERE id = "+id+"";
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .execute(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

@@ -12,16 +12,13 @@ public class MenuUsuario extends JFrame {
     private Usuario usuario;
     private DaoUsuario daoUsuario;
 
-    public MenuUsuario(InicioSesion inicio, Usuario usuario){
+    public MenuUsuario(Usuario usuario){
         super("Inicio de Sesión");
         setVisible(true);
         setSize(500,500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(mainPanel);
-
-        inicioSesion = inicio;
         this.usuario = usuario;
-        inicio.setVisible(false);
     }
 }

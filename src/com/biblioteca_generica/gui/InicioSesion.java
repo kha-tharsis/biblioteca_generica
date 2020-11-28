@@ -50,9 +50,11 @@ public class InicioSesion extends JFrame{
                     if (daoUsuario.ValidarUsuario(usuario)){
                         Usuario u = daoUsuario.getUserFromRut(rut);
                         if(u.getTipo_usuario() == 1){
-                            SwingUtilities.invokeLater(()-> mainMenu = new MainMenu(null, u));
+                            MainMenu mm = new MainMenu(u);
+                            dispose();
                         }else if(u.getTipo_usuario() == 2){
-                            SwingUtilities.invokeLater(()-> menuUsuario = new MenuUsuario(null,u));
+                            MenuUsuario mu = new MenuUsuario(u);
+                            dispose();
                         }
                     }else{
                         JOptionPane.showMessageDialog(null,"User or password invalid");
