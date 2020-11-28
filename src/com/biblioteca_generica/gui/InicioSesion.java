@@ -18,8 +18,6 @@ public class InicioSesion extends JFrame{
 
     private DaoUsuario daoUsuario;
     private Conexion con;
-    private MainMenu mainMenu;
-    private MenuUsuario menuUsuario;
 
     public InicioSesion(){
         super("Inicio de Sesión");
