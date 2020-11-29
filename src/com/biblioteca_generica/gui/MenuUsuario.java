@@ -9,8 +9,11 @@ import com.biblioteca_generica.model.Usuario;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,7 @@ public class MenuUsuario extends JFrame {
     private JButton buttonCerrarSesion;
     private JButton buttonSolicitar;
     private JTable tablaLibros;
+    private JPanel menuPanel;
 
     public MenuUsuario(Usuario usuario){
         super("Menu");
@@ -134,5 +138,21 @@ public class MenuUsuario extends JFrame {
             }
         });
 
+        labelActualizarDatos.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                labelActualizarDatos.setForeground(Color.decode("#0900AF"));
+            }
+        });
+
+
+        panel1.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                labelActualizarDatos.setForeground(Color.black);
+            }
+        });
     }
 }

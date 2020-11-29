@@ -171,4 +171,15 @@ public class DaoLibro {
         return list;
     }
 
+    public void deleteLibro(int id){
+        String sql = "DELETE FROM libro WHERE id =" +id;
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
 }

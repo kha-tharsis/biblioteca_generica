@@ -14,7 +14,6 @@ public class CrearUsuario extends JFrame{
     private JTextField txtfechanaci;
     private JTextField txtfono;
     private JButton crearButton;
-    private JButton atrásButton;
 
     public CrearUsuario(){
         super("Crear Usuario");
@@ -30,15 +29,6 @@ public class CrearUsuario extends JFrame{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 int telefono = Integer.parseInt(txtfono.getText());
-            }
-        });
-
-        atrásButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                InicioSesion login = new InicioSesion();
-                login.setVisible(true);
-                setVisible(false);
             }
         });
 

@@ -55,7 +55,7 @@ public class InicioSesion extends JFrame{
                             dispose();
                         }
                     }else{
-                        JOptionPane.showMessageDialog(null,"User or password invalid");
+                        JOptionPane.showMessageDialog(null,"RUT o contraseña inválido");
                     }
                 }
             }

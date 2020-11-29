@@ -69,6 +69,7 @@ public class DaoUsuario {
             e.printStackTrace();
         }
     }
+
     public void actualizarDatosUsuario(String correo,int fono,int id){
         String sql = "UPDATE usuario " +
                 "SET correo = '"+correo+"'," +

@@ -30,6 +30,16 @@ public class Usuario {
         this.pass = pass;
     }
 
+    public Usuario(String rut, String pass, String nombres, String apellidos, String correo, String fecha_nacimiento, int fono){
+        this.rut = rut;
+        this.pass = pass;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.correo = correo;
+        this.fecha_nacimiento = fecha_nacimiento;
+        this.fono = fono;
+    }
+
     public int getId() {
         return id;
     }
