@@ -1,5 +1,6 @@
 package com.biblioteca_generica.dao;
 
+import com.biblioteca_generica.model.Categoria;
 import com.biblioteca_generica.model.Conexion;
 import  com.biblioteca_generica.model.Libro;
 
@@ -101,4 +102,73 @@ public class DaoLibro {
 
         return list;
     }
+    public String getCategoriaPorId(int id){
+        String sql = "SELECT categoria FROM categoria WHERE id = "+id+"";
+        String cat = "";
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                cat = rs.getString("categoria");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cat;
+    }
+    public String getEstadoPorInt(int est){
+        String estado = "";
+        if(est == 1){
+            estado = "Disponible";
+        }else if(est == 0){
+            estado = "No Disponible";
+        }
+        return estado;
+    }
+    public List<Libro> getLibrosDisponibles(){
+        String sql = "SELECT * FROM libro WHERE estado = 1";
+        List<Libro> list = new ArrayList();
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String titulo = rs.getString("titulo");
+                String fecha_publicacion = rs.getString("fecha_publicacion");
+                String autor = rs.getString("autor");
+                int categoria_id = rs.getInt("categoria_id_fk");
+                int n_paginas = rs.getInt("numero_paginas");
+                int estado = rs.getInt("estado");
+                Libro l = new Libro(id,titulo,fecha_publicacion,autor,categoria_id,n_paginas,estado);
+                list.add(l);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public List<Categoria> getAllCategorias(){
+        String sql = "SELECT * FROM categoria";
+        List<Categoria> list = new ArrayList();
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String cat = rs.getString("categoria");
+                Categoria c = new Categoria(id,cat);
+                list.add(c);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 }
