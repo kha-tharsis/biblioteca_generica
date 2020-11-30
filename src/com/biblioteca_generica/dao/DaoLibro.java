@@ -6,6 +6,7 @@ import  com.biblioteca_generica.model.Libro;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 public class DaoLibro {
@@ -40,11 +41,11 @@ public class DaoLibro {
         return list;
     }
     public void insertarLibro(String titulo,String fecha_publicacion,String autor,int categoria,int n_paginas){
-        String consulta = "INSERT INTO libro VALUES(NULL,'"+titulo+"','"+fecha_publicacion+"','"+autor+"',"+categoria+","+n_paginas+")";
+        String c = "CALL agregar_libro('"+titulo+"','"+fecha_publicacion+"','"+autor+"',(SELECT categoria FROM categoria WHERE id = "+categoria+"),"+n_paginas+")";
         try {
             this.con.getCon()
                     .createStatement()
-                    .execute(consulta);
+                    .execute(c);
         }catch (SQLException e){
             e.printStackTrace();
         }
@@ -65,21 +66,20 @@ public class DaoLibro {
             e.printStackTrace();
         }
     }
-    public List<Libro> filtrarLibro(String nombre_filtro,String parametro_filtro,int esString){
+    public List<Libro> filtrarLibro(String nombre_filtro,String parametro_filtro){
         String consulta = "";
-        if(esString == 1){
-            consulta = "SELECT * FROM libro WHERE '"+nombre_filtro+"' LIKE '%"+parametro_filtro+"%'";
+        if(nombre_filtro != "id"){
+            consulta = "SELECT * FROM libro WHERE "+nombre_filtro+" LIKE '%"+parametro_filtro+"%'";
         }
-        else if (esString == 0){
+        else if (nombre_filtro == "id"){
             int filtro_num = 0;
             try {
                 filtro_num = Integer.parseInt(parametro_filtro);
             } catch (NumberFormatException excepcion) {
 
             }
-            consulta = "SELECT * FROM libro WHERE '"+nombre_filtro+"' = "+filtro_num+"";
+            consulta = "SELECT * FROM libro WHERE "+nombre_filtro+" = "+filtro_num+"";
         }
-
         List<Libro> list = new ArrayList();
         try {
             ResultSet rs = this.con.getCon()
@@ -169,6 +169,82 @@ public class DaoLibro {
         }
 
         return list;
+    }
+    public List<Libro> getLibrosPoridCategoria(int id_categoria){
+        String sql = "SELECT * FROM libro WHERE categoria_id_fk = "+id_categoria+"";
+        List<Libro> list = new ArrayList();
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String titulo = rs.getString("titulo");
+                String fecha_publicacion = rs.getString("fecha_publicacion");
+                String autor = rs.getString("autor");
+                int categoria_id = rs.getInt("categoria_id_fk");
+                int n_paginas = rs.getInt("numero_paginas");
+                int estado = rs.getInt("estado");
+                Libro l = new Libro(id,titulo,fecha_publicacion,autor,categoria_id,n_paginas,estado);
+                list.add(l);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public List<Libro> getLibrosUsuario(int id_user){
+        String sql = "SELECT libro.id, libro.titulo, libro.fecha_publicacion, " +
+                "libro.autor, libro.categoria_id_fk, libro.numero_paginas, libro.estado  " +
+                "FROM registro  INNER JOIN libro ON libro.id = registro.libro_id_fk WHERE " +
+                "registro.usuario_id_fk ="+id_user+"";
+        List<Libro> list = new ArrayList();
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String titulo = rs.getString("titulo");
+                String fecha_publicacion = rs.getString("fecha_publicacion");
+                String autor = rs.getString("autor");
+                int categoria_id = rs.getInt("categoria_id_fk");
+                int n_paginas = rs.getInt("numero_paginas");
+                int estado = rs.getInt("estado");
+                Libro l = new Libro(id,titulo,fecha_publicacion,autor,categoria_id,n_paginas,estado);
+                list.add(l);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public void solicitarLibro(int id_libro ,int id_user){
+        String consulta = "CALL agregarRegistro("+id_user+","+id_libro+",'"+ LocalDate.now()+"','"+LocalDate.now().plusDays(31)+"')";
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .execute(consulta);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public String getNombreLibro(int id_libro){
+        String n = "";
+        String sql = "SELECT titulo FROM libro WHERE id = "+id_libro+"";
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                n = rs.getString("titulo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return n;
     }
 
 }

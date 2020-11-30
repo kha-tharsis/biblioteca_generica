@@ -85,4 +85,9 @@ public class Libro {
     public void setEstado(int estado) {
         this.estado = estado;
     }
+
+    @Override
+    public String toString() {
+        return titulo;
+    }
 }
