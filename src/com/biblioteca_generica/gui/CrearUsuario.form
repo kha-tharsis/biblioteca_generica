@@ -149,7 +149,10 @@
             <preferred-size width="150" height="-1"/>
           </grid>
         </constraints>
-        <properties/>
+        <properties>
+          <text value=""/>
+          <toolTipText value="Formato: año-mes-dia | aaaa-mm-dd"/>
+        </properties>
       </component>
       <component id="a2a8e" class="javax.swing.JTextField" binding="txtfono">
         <constraints>

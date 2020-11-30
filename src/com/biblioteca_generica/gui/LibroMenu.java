@@ -29,6 +29,7 @@ public class LibroMenu extends JFrame{
     private JTextField txtNodiponible0;
     private InicioSesion inicioSesion;
     private Usuario usuario;
+    private DaoLibro daoLibro;
     private DefaultTableModel tablemodel;
     private DefaultComboBoxModel combo;
 
@@ -100,6 +101,10 @@ public class LibroMenu extends JFrame{
         eliminarbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                tablemodel.setRowCount(0);
+                txtdisponible1.setText(Integer.toString(daoLibro.cantidadLibros(1)));
+                txtNodiponible0.setText(Integer.toString(daoLibro.cantidadLibros(0)));
+
                 //eliminar libro
             }
         });
@@ -110,15 +115,47 @@ public class LibroMenu extends JFrame{
                 txtdisponible1.setText(Integer.toString(daoLibro.cantidadLibros(1)));
                 txtNodiponible0.setText(Integer.toString(daoLibro.cantidadLibros(0)));
 
-                String titulo = titulotxt.getText();
-                String fecha_publicacion = fechatxt.getText();
-                String autor = autortxt.getText();
-                //int categoria_id_fk = (String)combo.getSelectedItem(daoLibro.getCategoriaPorId());
-                int numero_paginas = Integer.parseInt(paginastxt.getText());
+                if (titulotxt.getText().isEmpty() || fechatxt.getText().isEmpty() || paginastxt.getText().isEmpty()){
+                    JOptionPane.showMessageDialog(null, "Debe ingresar un elemento en todos los campos","ERROR",0);
+                }else{
+                    try {
+                        String titulo = titulotxt.getText();
+                        String fecha_publicacion = fechatxt.getText();
+                        String autor = autortxt.getText();
+                        Categoria c = (Categoria)combo.getSelectedItem();
+                        int categoria_id_fk = c.getId();
+                        int numero_paginas = Integer.parseInt(paginastxt.getText());
 
-                //Libro libro = new Libro(titulo,fecha_publicacion,autor,categoria_id_fk,numero_paginas,1);
-                //daoLibro.insertarLibro(libro);
+                        daoLibro.insertarLibro(titulo,fecha_publicacion,autor,categoria_id_fk,numero_paginas);
+                        JOptionPane.showMessageDialog(null,"El libro ha sido agregado exitosamente");
+                        limpiarTxt();
+                    }catch (Exception e){
+                        JOptionPane.showMessageDialog(null, "Alguno de los valores ingresados pueden no ser validos");
+                    }
+                    tablemodel.setRowCount(0);
+                    List<Libro> allLibros;
+                    allLibros = daoLibro.getLibrosDisponibles();
+                    for(Libro libro : allLibros) {
+                        Datos[0] = Integer.toString(libro.getId());
+                        Datos[1] = libro.getTitulo();
+                        Datos[2] = libro.getFecha_publicacion();
+                        Datos[3] = libro.getAutor();
+                        Datos[4] = daoLibro.getCategoriaPorId(libro.getCategoria_id_fk());
+                        Datos[5] = Integer.toString(libro.getNumero_paginas());
+                        Datos[6] = daoLibro.getEstadoPorInt(libro.getEstado());
+
+
+                        tablemodel.addRow(Datos);
+                        tablalibros.setModel(tablemodel);
+                    }
+                }
             }
         });
+    }
+    private void limpiarTxt(){
+        titulotxt.setText("");
+        fechatxt.setText("");
+        autortxt.setText("");
+        paginastxt.setText("");
     }
 }

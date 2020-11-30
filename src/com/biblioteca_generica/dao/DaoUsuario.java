@@ -60,8 +60,8 @@ public class DaoUsuario {
     }
 
     public void addUser(String rut,String passw,String nombre,String apellido,String correo,String fecha_nacimiento,int telefono){
-        String sql = "INSERT INTO usuario VALUES(NULL,'"+rut+"','"+passw+"','"+nombre+"','"+apellido+"','"+correo+"','"+fecha_nacimiento+"',"+telefono+"),(SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Usuario')";
-        try {
+        String sql = "INSERT INTO usuario VALUES(NULL,'"+rut+"',SHA2('"+passw+"',0),'"+nombre+"','"+apellido+"','"+correo+"','"+fecha_nacimiento+"',"+telefono+",(SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Usuario'))";
+        try{
             this.con.getCon()
                     .createStatement()
                     .execute(sql);
