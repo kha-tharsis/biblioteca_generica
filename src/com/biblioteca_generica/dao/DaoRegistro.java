@@ -65,7 +65,7 @@ public class DaoRegistro {
             while(rs.next()){
                 cont = rs.getInt("COUNT(*)");
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

@@ -19,6 +19,14 @@ public class Registro {
         this.estado_registro_id = estado_registro_id;
     }
 
+    public Registro(int usuario_id, int libro_id, String fecha_solicitud, String fecha_entrega, int estado_registro_id){
+        this.usuario_id = usuario_id;
+        this.libro_id = libro_id;
+        this.fecha_solicitud = fecha_solicitud;
+        this.fecha_entrega = fecha_entrega;
+        this.estado_registro_id = estado_registro_id;
+    }
+
     public int getId() {
         return id;
     }

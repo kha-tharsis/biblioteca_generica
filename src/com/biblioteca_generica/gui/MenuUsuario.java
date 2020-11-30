@@ -1,22 +1,22 @@
 package com.biblioteca_generica.gui;
-
 import com.biblioteca_generica.dao.DaoLibro;
 import com.biblioteca_generica.dao.DaoRegistro;
 import com.biblioteca_generica.dao.DaoUsuario;
 import com.biblioteca_generica.model.*;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuUsuario extends JFrame {
     private JPanel mainPanel;
-
     private InicioSesion inicioSesion;
     private Usuario usuario;
     private DaoUsuario daoUsuario;
@@ -34,8 +34,11 @@ public class MenuUsuario extends JFrame {
     private JButton buttonSolicitar;
     private JTable tablaLibros;
     private JButton buttonBuscarPorCategoria;
-    private JButton actualizarDatosButton;
     private JTable tableLibrosUser;
+
+    private JPanel menuPanel;
+    private JLabel labelActualizarDatos;
+
 
     public MenuUsuario(Usuario usuario){
         super("Menu");
@@ -226,37 +229,49 @@ public class MenuUsuario extends JFrame {
             public void actionPerformed(ActionEvent actionEvent) {
                 int cuentaFilasSeleccionadas = tablaLibros.getSelectedRowCount();
                 if (cuentaFilasSeleccionadas == 0) {
-                    JOptionPane.showMessageDialog(null,"Porfavor, seleccione un libro");
-                }
-                else if(cuentaFilasSeleccionadas > 1){
-                    JOptionPane.showMessageDialog(null,"Porfavor,seleccione SOLO un libro");
-                }
-                else if(cuentaFilasSeleccionadas == 1){
-                    String disp= (String) model.getValueAt(tablaLibros.getSelectedRow(),6);
-                    if(disp == "No Disponible"){
-                        JOptionPane.showMessageDialog(null,"este libro no se encuentra disponible actualmente");
-                    }
-                    else if(disp == "Disponible"){
+                    JOptionPane.showMessageDialog(null, "Porfavor, seleccione un libro");
+                } else if (cuentaFilasSeleccionadas > 1) {
+                    JOptionPane.showMessageDialog(null, "Porfavor,seleccione SOLO un libro");
+                } else if (cuentaFilasSeleccionadas == 1) {
+                    String disp = (String) model.getValueAt(tablaLibros.getSelectedRow(), 6);
+                    if (disp == "No Disponible") {
+                        JOptionPane.showMessageDialog(null, "este libro no se encuentra disponible actualmente");
+                    } else if (disp == "Disponible") {
                         boolean e = daoRegistro.exedeLimite(usuario.getId());
 
-                        if(e == true){
-                            JOptionPane.showMessageDialog(null,"usted a excedido el limite de libros permitidos");
-                        }
-                        else if(e == false){
-                            String dato= (String) model.getValueAt(tablaLibros.getSelectedRow(),0);
+                        if (e == true) {
+                            JOptionPane.showMessageDialog(null, "usted a excedido el limite de libros permitidos");
+                        } else if (e == false) {
+                            String dato = (String) model.getValueAt(tablaLibros.getSelectedRow(), 0);
                             int id_libro = 0;
                             try {
                                 id_libro = Integer.parseInt(dato);
                             } catch (NumberFormatException excepcion) {
 
                             }
-                            daoLibro.solicitarLibro(id_libro,usuario.getId());
-                            JOptionPane.showMessageDialog(null,"el libro se ha pedido correctamente");
+                            daoLibro.solicitarLibro(id_libro, usuario.getId());
+                            JOptionPane.showMessageDialog(null, "el libro se ha pedido correctamente");
                         }
 
                     }
 
                 }
+
+            }
+        });
+        labelActualizarDatos.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                labelActualizarDatos.setForeground(Color.decode("#0900AF"));
+            }
+        });
+
+        panel1.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                super.mouseMoved(e);
+                labelActualizarDatos.setForeground(Color.black);
             }
         });
     }
