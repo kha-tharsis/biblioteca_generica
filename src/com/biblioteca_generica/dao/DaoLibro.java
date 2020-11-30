@@ -4,8 +4,10 @@ import com.biblioteca_generica.model.Categoria;
 import com.biblioteca_generica.model.Conexion;
 import  com.biblioteca_generica.model.Libro;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -248,7 +250,7 @@ public class DaoLibro {
     }
 
     public void deleteLibro(int id){
-        String sql = "DELETE FROM libro WHERE id =" +id;
+        String sql = "DELETE FROM libro WHERE id =" +id+"";
         try {
             this.con.getCon()
                     .createStatement()
@@ -256,6 +258,21 @@ public class DaoLibro {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public int cantidadLibros(int cantidad){
+        String sql = "{?=call seleccionar_cantidad_libros(?)}";
+        int res = 0;
+        try {
+            CallableStatement cs = con.getCon().prepareCall(sql);
+            cs.registerOutParameter(1, Types.INTEGER);
+            cs.setInt(2,cantidad);
+            cs.execute();
+            res = cs.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return res;
     }
 
 }

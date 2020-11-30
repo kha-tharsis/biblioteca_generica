@@ -25,6 +25,8 @@ public class LibroMenu extends JFrame{
     private JTable tablalibros;
     private JButton eliminarbtn;
     private JButton atrasbtn;
+    private JTextField txtdisponible1;
+    private JTextField txtNodiponible0;
     private InicioSesion inicioSesion;
     private Usuario usuario;
     private DefaultTableModel tablemodel;
@@ -82,6 +84,8 @@ public class LibroMenu extends JFrame{
             tablemodel.addRow(Datos);
             tablalibros.setModel(tablemodel);
         }
+        txtdisponible1.setText(Integer.toString(daoLibro.cantidadLibros(1)));
+        txtNodiponible0.setText(Integer.toString(daoLibro.cantidadLibros(0)));
 
 
         atrasbtn.addActionListener(new ActionListener() {
@@ -97,6 +101,23 @@ public class LibroMenu extends JFrame{
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 //eliminar libro
+            }
+        });
+
+        añadirbtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                txtdisponible1.setText(Integer.toString(daoLibro.cantidadLibros(1)));
+                txtNodiponible0.setText(Integer.toString(daoLibro.cantidadLibros(0)));
+
+                String titulo = titulotxt.getText();
+                String fecha_publicacion = fechatxt.getText();
+                String autor = autortxt.getText();
+                //int categoria_id_fk = (String)combo.getSelectedItem(daoLibro.getCategoriaPorId());
+                int numero_paginas = Integer.parseInt(paginastxt.getText());
+
+                //Libro libro = new Libro(titulo,fecha_publicacion,autor,categoria_id_fk,numero_paginas,1);
+                //daoLibro.insertarLibro(libro);
             }
         });
     }
