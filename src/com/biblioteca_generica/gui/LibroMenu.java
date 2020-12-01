@@ -36,7 +36,7 @@ public class LibroMenu extends JFrame{
     public LibroMenu(Usuario usuario){
         super("Menu");
         setVisible(true);
-        setSize(600,400);
+        setSize(650,400);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         add(mainPanel);
@@ -94,7 +94,7 @@ public class LibroMenu extends JFrame{
             public void actionPerformed(ActionEvent actionEvent) {
                 MainMenu mainMenu = new MainMenu(usuario);
                 mainMenu.setVisible(true);
-                setVisible(false);
+                dispose();
             }
         });
 
@@ -148,7 +148,7 @@ public class LibroMenu extends JFrame{
                     }
                     tablemodel.setRowCount(0);
                     List<Libro> allLibros;
-                    allLibros = daoLibro.getLibrosDisponibles();
+                    allLibros = daoLibro.getAllLibros();
                     for(Libro libro : allLibros) {
                         Datos[0] = Integer.toString(libro.getId());
                         Datos[1] = libro.getTitulo();

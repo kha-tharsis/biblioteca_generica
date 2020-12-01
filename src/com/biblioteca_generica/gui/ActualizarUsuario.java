@@ -46,7 +46,7 @@ public class ActualizarUsuario extends JFrame {
                     DaoUsuario daoUsuario = new DaoUsuario(c);
                     String correo = textFieldCorreo.getText();
                     String f = textFieldFono.getText();
-                    int fono = 0;
+                    int fono;
                     try {
                         fono = Integer.parseInt(f);
 

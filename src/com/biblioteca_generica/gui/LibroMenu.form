@@ -200,7 +200,9 @@
                         <preferred-size width="20" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <component id="1aa98" class="javax.swing.JTextField" binding="txtNodiponible0">
                     <constraints>
@@ -208,7 +210,9 @@
                         <preferred-size width="20" height="-1"/>
                       </grid>
                     </constraints>
-                    <properties/>
+                    <properties>
+                      <editable value="false"/>
+                    </properties>
                   </component>
                   <hspacer id="d792a">
                     <constraints>

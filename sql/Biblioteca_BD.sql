@@ -50,22 +50,6 @@ INSERT INTO libro(titulo,fecha_publicacion,autor,categoria_id_fk,numero_paginas)
 										       ('Метро 2033','2005-06-12','Dmitry Glukhovsky',@novela_id,348);
 
 
-CREATE TABLE categoria_libro(
-    id INT AUTO_INCREMENT,
-    libro_id_fk INT,
-    categoria_id_fk INT,
-
-    PRIMARY KEY(id),
-    FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
-    FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
-);
-
-INSERT INTO categoria_libro(libro_id_fk,categoria_id_fk) VALUES(1,6),
-				  			       (2,2),
-							       (3,5),
-							       (4,7),
-							       (5,6);
-
 CREATE TABLE tipo_usuario(
     id INT AUTO_INCREMENT,
     tipo_usuario VARCHAR(30),
@@ -148,6 +132,7 @@ CREATE TABLE historial_libro(
     FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
     FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
 );
+
 -- Trigger para agregar un historial de libros al hacer un update
 DELIMITER //
 CREATE TRIGGER trigger_historial_libro BEFORE UPDATE ON libro
@@ -156,6 +141,7 @@ BEGIN
     INSERT INTO historial_libro VALUES(NULL,OLD.id,OLD.titulo,OLD.fecha_publicacion,OLD.autor,OLD.categoria_id_fk,OLD.numero_paginas,NOW());
 END //
 DELIMITER ;
+
 
 -- Trigger para cambiar el estado de un libro a no disponible al hacer una reserva
 DELIMITER //
@@ -171,6 +157,7 @@ BEGIN
     END IF;    
 END //
 DELIMITER ;
+
 
 -- Procedimiento para limitar el pedido de libros
 DELIMITER //
@@ -195,6 +182,7 @@ BEGIN
 END //
 DELIMITER ;
 
+
 -- Procedimiento para agregar un libro y añadirlo a la tabla categoria_libro
 DELIMITER //
 CREATE PROCEDURE agregar_libro(IN _titulo VARCHAR(50),IN _fechaPublicacion VARCHAR(12),IN _autor VARCHAR(50),IN _categoria VARCHAR(20),IN _paginas INT)
@@ -217,17 +205,12 @@ BEGIN
         INSERT INTO libro VALUES (NULL,_titulo,_fechaPublicacion,_autor,id_categoria,_paginas,1);
 	SELECT 'Se agregó el libro exitosamente' AS 'info';
     END IF;
-
-    IF existe_libro = 0 OR existe_categoria = 0 THEN
-        SET id_libro = (SELECT id FROM libro WHERE titulo = _titulo);
-        SET id_categoria = (SELECT id FROM categoria WHERE categoria = _categoria);
-        INSERT INTO categoria_libro VALUES (NULL,id_libro,id_categoria);
-    END IF;
 END //
 DELIMITER ;
 
 -- CALL para probar
 CALL agregar_libro('The Call of Cthulhu','1928-02-05','H.P. Lovecraft','Cuento',54);
+
 
 -- Funcion que retorna la cantidad de libros disponibles(1) y no disponibles(0)
 DELIMITER //
