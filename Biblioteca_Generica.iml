@@ -10,17 +10,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Downloads/mariadb-java-client-2.7.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="library" name="mariadb-java-client-2.4.4" level="application" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/mariadb-java-client-2.4.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/libraries/mariadb-java-client-2.4.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

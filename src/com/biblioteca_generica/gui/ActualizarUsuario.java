@@ -49,13 +49,23 @@ public class ActualizarUsuario extends JFrame {
                     int fono = 0;
                     try {
                         fono = Integer.parseInt(f);
-
-                        daoUsuario.actualizarDatosUsuario(correo,fono,usuario.getId());
-                        JOptionPane.showMessageDialog(null, "Datos actualizados correctamente");
-                        MenuUsuario meus = new MenuUsuario(usuario);
-                        dispose();
+                        if(daoUsuario.correoDisponible(correo,usuario.getId()) == true && daoUsuario.fonoDisponible(fono,usuario.getId()) == true){
+                            JOptionPane.showMessageDialog(null, "El numero y el correo estan registrados por otro usuario, porfavor ingrese otro");
+                        }
+                        else if(daoUsuario.correoDisponible(correo,usuario.getId()) == true && daoUsuario.fonoDisponible(fono,usuario.getId()) == false){
+                            JOptionPane.showMessageDialog(null, "El correo esta registrado por otro usuario");
+                        }
+                        else if(daoUsuario.correoDisponible(correo,usuario.getId()) == false && daoUsuario.fonoDisponible(fono,usuario.getId()) == true){
+                            JOptionPane.showMessageDialog(null, "El fono esta registrado por otro usuario");
+                        }
+                        else if (daoUsuario.correoDisponible(correo,usuario.getId()) == false && daoUsuario.fonoDisponible(fono,usuario.getId()) == false){
+                            daoUsuario.actualizarDatosUsuario(correo,fono,usuario.getId());
+                            JOptionPane.showMessageDialog(null, "Datos actualizados correctamente");
+                            InicioSesion is = new InicioSesion();
+                            dispose();
+                        }
                     } catch (NumberFormatException excepcion) {
-                        JOptionPane.showMessageDialog(null, "Ingrese datos numericos en el numero");
+                        JOptionPane.showMessageDialog(null, "Ingrese datos numericos en el fono");
                     }
                 }
 
