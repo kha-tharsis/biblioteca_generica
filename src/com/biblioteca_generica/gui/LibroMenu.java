@@ -109,7 +109,6 @@ public class LibroMenu extends JFrame{
                     JOptionPane.showMessageDialog(null,"Selecione un libro de la tabla","Selecionar",2);
                 }else {
                     try {
-                        //int eliminar = (int) tablemodel.getValueAt(fila,0);
                         String eliminar = tablemodel.getValueAt(fila,0).toString();
                         tablemodel.removeRow(fila);
                         daoLibro.deleteLibro(eliminar);
@@ -117,8 +116,6 @@ public class LibroMenu extends JFrame{
                     }catch (Exception e){
                         JOptionPane.showMessageDialog(null,"ERROR al eliminar" + e.getMessage());
                     }
-                    //String delete = tablemodel.getValueAt(fila,0).toString();
-
                 }
             }
         });
@@ -157,7 +154,7 @@ public class LibroMenu extends JFrame{
                         Datos[4] = daoLibro.getCategoriaPorId(libro.getCategoria_id_fk());
                         Datos[5] = Integer.toString(libro.getNumero_paginas());
                         Datos[6] = daoLibro.getEstadoPorInt(libro.getEstado());
-
+                        System.out.println(Datos[1]);
 
                         tablemodel.addRow(Datos);
                         tablalibros.setModel(tablemodel);

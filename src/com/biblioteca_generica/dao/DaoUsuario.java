@@ -84,8 +84,46 @@ public class DaoUsuario {
         }
     }
 
-    public boolean correoRutDisponible(){
-
+    public boolean rutDisponible(String rut){
+        String sql = "SELECT COUNT(*) AS 'existe' FROM usuario WHERE rut = '"+rut+"'";
+        try {
+            ResultSet rs = con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt("existe") == 1;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+    public boolean correoDisponible(String correo,int id){
+        String sql = "SELECT COUNT(*) AS 'existe' FROM usuario WHERE correo = '"+correo+"' AND id != "+id+"";
+        try {
+            ResultSet rs = con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt("existe") == 1;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return false;
+    }
+    public boolean fonoDisponible(int fono, int id){
+        String sql = "SELECT COUNT(*) AS 'existe' FROM usuario WHERE fono = "+fono+" AND id != "+id+"";
+        try {
+            ResultSet rs = con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            if(rs.next()){
+                return rs.getInt("existe") == 1;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 }
