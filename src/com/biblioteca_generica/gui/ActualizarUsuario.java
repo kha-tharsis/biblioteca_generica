@@ -5,6 +5,7 @@ import com.biblioteca_generica.model.Conexion;
 import com.biblioteca_generica.model.Usuario;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,7 +18,7 @@ public class ActualizarUsuario extends JFrame {
     private JButton volverButton;
 
     public ActualizarUsuario(Usuario usuario){
-        super("Menu");
+        super("Actualizar Usuario");
         setVisible(true);
         setSize(350,200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,23 +50,23 @@ public class ActualizarUsuario extends JFrame {
                     int fono = 0;
                     try {
                         fono = Integer.parseInt(f);
-                        if(daoUsuario.correoDisponible(correo,usuario.getId()) == true && daoUsuario.fonoDisponible(fono,usuario.getId()) == true){
-                            JOptionPane.showMessageDialog(null, "El numero y el correo estan registrados por otro usuario, porfavor ingrese otro");
+                        if(daoUsuario.correoDisponible(correo,usuario.getId()) && daoUsuario.fonoDisponible(fono,usuario.getId())){
+                            JOptionPane.showMessageDialog(null, "El número y el correo están registrados por otro usuario, porfavor ingrese otro");
                         }
-                        else if(daoUsuario.correoDisponible(correo,usuario.getId()) == true && daoUsuario.fonoDisponible(fono,usuario.getId()) == false){
-                            JOptionPane.showMessageDialog(null, "El correo esta registrado por otro usuario");
+                        else if(daoUsuario.correoDisponible(correo,usuario.getId()) && !daoUsuario.fonoDisponible(fono,usuario.getId())){
+                            JOptionPane.showMessageDialog(null, "El correo está registrado por otro usuario");
                         }
-                        else if(daoUsuario.correoDisponible(correo,usuario.getId()) == false && daoUsuario.fonoDisponible(fono,usuario.getId()) == true){
-                            JOptionPane.showMessageDialog(null, "El fono esta registrado por otro usuario");
+                        else if(!daoUsuario.correoDisponible(correo,usuario.getId()) && daoUsuario.fonoDisponible(fono,usuario.getId())){
+                            JOptionPane.showMessageDialog(null, "El teléfono está registrado por otro usuario");
                         }
-                        else if (daoUsuario.correoDisponible(correo,usuario.getId()) == false && daoUsuario.fonoDisponible(fono,usuario.getId()) == false){
+                        else if (!daoUsuario.correoDisponible(correo,usuario.getId()) && !daoUsuario.fonoDisponible(fono,usuario.getId())){
                             daoUsuario.actualizarDatosUsuario(correo,fono,usuario.getId());
                             JOptionPane.showMessageDialog(null, "Datos actualizados correctamente");
-                            InicioSesion is = new InicioSesion();
+                            MenuUsuario meus = new MenuUsuario(usuario);
                             dispose();
                         }
                     } catch (NumberFormatException excepcion) {
-                        JOptionPane.showMessageDialog(null, "Ingrese datos numericos en el fono");
+                        JOptionPane.showMessageDialog(null, "Ingrese datos numericos en el teléfono");
                     }
                 }
 

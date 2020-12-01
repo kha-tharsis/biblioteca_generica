@@ -2,6 +2,7 @@ package com.biblioteca_generica.gui;
 
 import com.biblioteca_generica.dao.DaoUsuario;
 import com.biblioteca_generica.model.Libro;
+import com.biblioteca_generica.model.Registro;
 import com.biblioteca_generica.model.Usuario;
 
 import javax.swing.*;
@@ -12,6 +13,9 @@ public class MainMenu extends JFrame{
     private JPanel mainPanel;
     private JButton cerrarSesiónButton;
     private JButton librosButton;
+    private JLabel nombrelbl;
+    private JLabel rutlbl;
+    private JButton registrobtn;
 
     private InicioSesion inicioSesion;
     private Usuario usuario;
@@ -20,11 +24,13 @@ public class MainMenu extends JFrame{
     public MainMenu(Usuario usuario){
         super("Menu Principal");
         setVisible(true);
-        setSize(500,500);
+        setSize(450,190);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(mainPanel);
         this.usuario = usuario;
+        nombrelbl.setText(usuario.getNombres() + " " + usuario.getApellidos() + " !");
+        rutlbl.setText(usuario.getRut());
 
 
         cerrarSesiónButton.addActionListener(new ActionListener() {
@@ -40,6 +46,15 @@ public class MainMenu extends JFrame{
             public void actionPerformed(ActionEvent actionEvent) {
                 LibroMenu lm = new LibroMenu(usuario);
                 lm.setVisible(true);
+                dispose();
+            }
+        });
+
+        registrobtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                RegistroMenu rm = new RegistroMenu(usuario);
+                rm.setVisible(true);
                 dispose();
             }
         });

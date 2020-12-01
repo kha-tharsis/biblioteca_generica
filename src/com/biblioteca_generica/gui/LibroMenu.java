@@ -10,6 +10,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,10 +36,10 @@ public class LibroMenu extends JFrame{
     private DefaultComboBoxModel combo;
 
     public LibroMenu(Usuario usuario){
-        super("Menu");
+        super("Menu de Libros");
         setVisible(true);
-        setSize(650,400);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(660,400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(mainPanel);
         this.usuario = usuario;
@@ -159,6 +161,27 @@ public class LibroMenu extends JFrame{
                         tablemodel.addRow(Datos);
                         tablalibros.setModel(tablemodel);
                     }
+                }
+            }
+        });
+
+        tablalibros.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                //Actualiza un dato directamente de la tabla al hacer Enter
+                int fila = tablalibros.getSelectedRow();
+                if (e.getKeyCode() == KeyEvent.VK_ENTER){
+                    int id = Integer.parseInt( tablemodel.getValueAt(fila,0).toString());
+                    String titulo = tablemodel.getValueAt(fila,1).toString();
+                    String fecha = tablemodel.getValueAt(fila,2).toString();
+                    String autor = tablemodel.getValueAt(fila,3).toString();
+                    //ARREGLAR
+                    //String cat = tablemodel.getValueAt(fila,4).toString();
+                    //int categoria = Integer.parseInt(cat);
+                    int pagina = Integer.parseInt( tablemodel.getValueAt(fila,5).toString());
+                    //daoLibro.updateLibro(id,titulo,fecha,autor,categoria,pagina);
+                    JOptionPane.showMessageDialog(null,"Libro actualizado con éxito!");
                 }
             }
         });
