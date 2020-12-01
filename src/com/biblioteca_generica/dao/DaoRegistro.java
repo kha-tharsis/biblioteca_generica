@@ -124,4 +124,15 @@ public class DaoRegistro {
             e.printStackTrace();
         }
     }
+    public void cambiarAFechaLimite(){
+        String sql = "UPDATE registro SET estado_registro_id_fk = 3 WHERE now() > fecha_entrega AND estado_registro_id_fk = 2";
+
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 }

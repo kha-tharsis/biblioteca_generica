@@ -1,6 +1,8 @@
 package com.biblioteca_generica.gui;
 
+import com.biblioteca_generica.dao.DaoRegistro;
 import com.biblioteca_generica.dao.DaoUsuario;
+import com.biblioteca_generica.model.Conexion;
 import com.biblioteca_generica.model.Libro;
 import com.biblioteca_generica.model.Registro;
 import com.biblioteca_generica.model.Usuario;
@@ -31,6 +33,10 @@ public class MainMenu extends JFrame{
         this.usuario = usuario;
         nombrelbl.setText(usuario.getNombres() + " " + usuario.getApellidos() + " !");
         rutlbl.setText(usuario.getRut());
+
+        Conexion c = new Conexion("localhost",3306,"biblioteca_generica","root","");
+        DaoRegistro daoRegistro = new DaoRegistro(c);
+        daoRegistro.cambiarAFechaLimite();
 
 
         cerrarSesiónButton.addActionListener(new ActionListener() {
