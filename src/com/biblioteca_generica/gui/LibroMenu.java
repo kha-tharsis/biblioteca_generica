@@ -113,6 +113,7 @@ public class LibroMenu extends JFrame{
                     try {
                         String eliminar = tablemodel.getValueAt(fila,0).toString();
                         tablemodel.removeRow(fila);
+                        System.out.println(eliminar+"---");
                         daoLibro.deleteLibro(eliminar);
                         JOptionPane.showMessageDialog(null,"El libro ha sido eliminado");
                     }catch (Exception e){
@@ -176,12 +177,17 @@ public class LibroMenu extends JFrame{
                     String titulo = tablemodel.getValueAt(fila,1).toString();
                     String fecha = tablemodel.getValueAt(fila,2).toString();
                     String autor = tablemodel.getValueAt(fila,3).toString();
-                    //ARREGLAR
-                    //String cat = tablemodel.getValueAt(fila,4).toString();
-                    //int categoria = Integer.parseInt(cat);
-                    int pagina = Integer.parseInt( tablemodel.getValueAt(fila,5).toString());
-                    //daoLibro.updateLibro(id,titulo,fecha,autor,categoria,pagina);
-                    JOptionPane.showMessageDialog(null,"Libro actualizado con éxito!");
+
+                    String cat = tablemodel.getValueAt(fila,4).toString();
+                    int categoria = daoLibro.getIdporCategoria(cat);
+                    if (categoria != 0){
+                        int pagina = Integer.parseInt( tablemodel.getValueAt(fila,5).toString());
+                        daoLibro.updateLibro(id,titulo,fecha,autor,categoria,pagina);
+                        JOptionPane.showMessageDialog(null,"Libro actualizado con éxito!");
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null,"Ingrese una categoria correcta");
+                    }
                 }
             }
         });

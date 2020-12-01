@@ -126,4 +126,31 @@ public class DaoUsuario {
         }
         return false;
     }
+    public Usuario getUserFromId (int id_user){
+        String sql = "SELECT * FROM usuario WHERE id = " + id_user + "";
+        Usuario u = new Usuario();
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String rut_user = rs.getString("rut");
+                String pass = rs.getString("pass");
+                String nombres = rs.getString("nombres");
+                String apellidos = rs.getString("apellidos");
+                String correo = rs.getString("correo");
+                String fecha_nacimiento = rs.getString("fecha_nacimiento");
+                int fono = rs.getInt("fono");
+                int tipo_user = rs.getInt("tipo_usuario_id_fk");
+                Usuario us = new Usuario(id,rut_user,pass,nombres,apellidos,correo,fecha_nacimiento,fono,tipo_user);
+                u = us;
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return u;
+    }
 }

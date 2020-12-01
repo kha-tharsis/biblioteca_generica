@@ -45,17 +45,22 @@ public class CrearUsuario extends JFrame{
                 }else {
                     try {
                         String rut = txtrut.getText();
-                        String pass = passwordField1.getText();
-                        String nombre = txtnombre.getText();
-                        String apellido = txtapellido.getText();
-                        String correo = txtcorreo.getText();
-                        String fecha_nacimiento = txtfechanaci.getText();
-                        int telefono = Integer.parseInt(txtfono.getText());
+                        if(daoUsuario.rutDisponible(rut) == true){
+                            JOptionPane.showMessageDialog(null, "Este rut ya posee una cuenta");
+                        }
+                        else{
+                            String pass = passwordField1.getText();
+                            String nombre = txtnombre.getText();
+                            String apellido = txtapellido.getText();
+                            String correo = txtcorreo.getText();
+                            String fecha_nacimiento = txtfechanaci.getText();
+                            int telefono = Integer.parseInt(txtfono.getText());
 
-                        daoUsuario.addUser(rut, pass, nombre, apellido, correo, fecha_nacimiento, telefono);
-                        JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
-                        InicioSesion is = new InicioSesion();
-                        dispose();
+                            daoUsuario.addUser(rut, pass, nombre, apellido, correo, fecha_nacimiento, telefono);
+                            JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
+                            dispose();
+                        }
+
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "Alguno de los valores ingresados pueden no ser validos");
                     }

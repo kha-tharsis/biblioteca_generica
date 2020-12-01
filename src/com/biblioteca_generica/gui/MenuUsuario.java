@@ -29,10 +29,10 @@ public class MenuUsuario extends JFrame {
     private JButton buttonSolicitar;
     private JTable tablaLibros;
     private JButton buttonBuscarPorCategoria;
-    private JTable tableLibrosUser;
 
     private JPanel menuPanel;
     private JLabel labelActualizarDatos;
+    private JTable tableUserLibros;
 
 
     public MenuUsuario(Usuario usuario){
@@ -58,8 +58,10 @@ public class MenuUsuario extends JFrame {
 
         DefaultTableModel model2 = new DefaultTableModel();
         model2.addColumn("Libro");
-        model2.addColumn("Estado");
+        model2.addColumn("Fecha Solicitud");
         model2.addColumn("Fecha a entregar");
+        model2.addColumn("Estado");
+
 
 
         DefaultComboBoxModel combo = new DefaultComboBoxModel();
@@ -76,14 +78,15 @@ public class MenuUsuario extends JFrame {
         List<Registro> listRegistrosuser = new ArrayList<>();
         listRegistrosuser = daoRegistro.getRegistrosActualesporIdUser(usuario.getId());
 
-        String Datos2[] = new String[3];
+        String Datos2[] = new String[4];
         for(Registro r : listRegistrosuser){
             Datos2[0] = daoLibro.getNombreLibro(r.getLibro_id());
-            Datos2[1] = r.getFecha_entrega();
-            Datos2[2] = daoRegistro.retornarEstadoRegistro(r.getEstado_registro_id());
+            Datos2[1] = r.getFecha_solicitud();
+            Datos2[2] = r.getFecha_entrega();
+            Datos2[3] = daoRegistro.retornarEstadoRegistro(r.getEstado_registro_id());
 
             model2.addRow(Datos2);
-            tableLibrosUser.setModel(model2);
+            tableUserLibros.setModel(model2);
         }
 
         List<String> listaFiltro = new ArrayList<>();
@@ -246,6 +249,39 @@ public class MenuUsuario extends JFrame {
                             }
                             daoLibro.solicitarLibro(id_libro, usuario.getId());
                             JOptionPane.showMessageDialog(null, "el libro se ha pedido correctamente");
+
+                            model2.setRowCount(0);
+
+                            List<Registro> listRegistrosuser = new ArrayList<>();
+                            listRegistrosuser = daoRegistro.getRegistrosActualesporIdUser(usuario.getId());
+
+                            for(Registro r : listRegistrosuser){
+                                Datos2[0] = daoLibro.getNombreLibro(r.getLibro_id());
+                                Datos2[1] = r.getFecha_solicitud();
+                                Datos2[2] = r.getFecha_entrega();
+                                Datos2[3] = daoRegistro.retornarEstadoRegistro(r.getEstado_registro_id());
+
+                                model2.addRow(Datos2);
+                                tableUserLibros.setModel(model2);
+                            }
+
+                            model.setRowCount(0);
+                            List<Libro> allLibros = new ArrayList<>();
+                            allLibros = daoLibro.getAllLibros();
+                            for(Libro libro : allLibros) {
+                                Datos[0] = Integer.toString(libro.getId());
+                                Datos[1] = libro.getTitulo();
+                                Datos[2] = libro.getFecha_publicacion();
+                                Datos[3] = libro.getAutor();
+                                Datos[4] = daoLibro.getCategoriaPorId(libro.getCategoria_id_fk());
+                                Datos[5] = Integer.toString(libro.getNumero_paginas());
+                                Datos[6] = daoLibro.getEstadoPorInt(libro.getEstado());
+
+
+                                model.addRow(Datos);
+                                tablaLibros.setModel(model);
+                            }
+
                         }
 
                     }

@@ -62,7 +62,7 @@ public class ActualizarUsuario extends JFrame {
                         else if (!daoUsuario.correoDisponible(correo,usuario.getId()) && !daoUsuario.fonoDisponible(fono,usuario.getId())){
                             daoUsuario.actualizarDatosUsuario(correo,fono,usuario.getId());
                             JOptionPane.showMessageDialog(null, "Datos actualizados correctamente");
-                            MenuUsuario meus = new MenuUsuario(usuario);
+                            InicioSesion i = new InicioSesion();
                             dispose();
                         }
                     } catch (NumberFormatException excepcion) {

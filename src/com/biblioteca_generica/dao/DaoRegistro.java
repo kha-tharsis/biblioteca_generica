@@ -16,7 +16,7 @@ public class DaoRegistro {
         this.con = con;
     }
     public List<Registro> getRegistrosActualesporIdUser(int id_user){
-        String sql = "SELECT * FROM registro WHERE usuario_id_fk = "+id_user+" AND estado_registro_id_fk = 1 OR estado_registro_id_fk = 2 OR estado_registro_id_fk = 3;";
+        String sql = "SELECT * FROM registro WHERE usuario_id_fk = "+id_user+"";
         List<Registro> list = new ArrayList();
         try {
             ResultSet rs = this.con.getCon()
@@ -76,5 +76,52 @@ public class DaoRegistro {
         }
 
         return est;
+    }
+    public List<Registro> allgetRegistros(){
+        String sql = "SELECT * FROM registro";
+        List<com.biblioteca_generica.model.Registro> list = new ArrayList();
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                int id_usuario = rs.getInt("usuario_id_fk");
+                int id_libro = rs.getInt("libro_id_fk");
+                String fecha_s = rs.getString("fecha_solicitud");
+                String fecha_e = rs.getString("fecha_entrega");
+                int estado = rs.getInt("estado_registro_id_fk");
+                com.biblioteca_generica.model.Registro r = new com.biblioteca_generica.model.Registro(id,id_usuario,id_libro,fecha_s,fecha_e,estado);
+                list.add(r);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public void entregarLibro(int id_registro){
+        String sql = "UPDATE registro SET estado_registro_id_fk = 2 WHERE id ="+id_registro;
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .executeUpdate(sql);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+    public void recibirLibro(int id_registro, int id_libro){
+        String sql_r = "UPDATE registro SET estado_registro_id_fk = 4 WHERE id ="+id_registro;
+        String sql_l = "UPDATE libro SET estado = 1 WHERE id ="+id_libro;
+        try {
+            this.con.getCon()
+                    .createStatement()
+                    .executeUpdate(sql_r);
+            this.con.getCon()
+                    .createStatement()
+                    .executeUpdate(sql_l);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }

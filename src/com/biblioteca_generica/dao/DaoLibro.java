@@ -59,7 +59,7 @@ public class DaoLibro {
                 "autor = '"+autor+"'," +
                 "categoria_id_fk = "+categoria+"," +
                 "numero_paginas = "+n_paginas+"" +
-                "WHERE id ="+id+"";
+                " WHERE id = "+id+"";
         try {
             this.con.getCon()
                     .createStatement()
@@ -250,7 +250,7 @@ public class DaoLibro {
     }
 
     public void deleteLibro(String id){
-        String sql = "DELETE FROM libro WHERE id =" +id;
+        String sql = "DELETE FROM libro WHERE id = '" +id+"'";
         try {
             this.con.getCon()
                     .createStatement()
@@ -274,5 +274,64 @@ public class DaoLibro {
         }
         return res;
     }
+    public int getIdporCategoria(String cat){
+        String sql = "SELECT id FROM categoria WHERE categoria = '"+cat+"'";
+        int id = 0;
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                id = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        return id;
+    }
+    public int getIdLibro(String nombre){
+        int n = 0;
+        String sql = "SELECT id FROM libro WHERE titulo = '"+nombre+"'";
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                n = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return n;
+    }
+    public Libro getLibro(String nombre){
+        Libro l = new Libro();
+        String sql = "SELECT * FROM libro WHERE titulo = '"+nombre+"'";
+        try {
+            ResultSet rs = this.con.getCon()
+                    .createStatement()
+                    .executeQuery(sql);
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String titulo = rs.getString("titulo");
+                String fecha_publicacion = rs.getString("fecha_publicacion");
+                String autor = rs.getString("autor");
+                int categoria_id = rs.getInt("categoria_id_fk");
+                int n_paginas = rs.getInt("numero_paginas");
+                int estado = rs.getInt("estado");
+                l.setId(id);
+                l.setTitulo(titulo);
+                l.setFecha_publicacion(fecha_publicacion);
+                l.setAutor(autor);
+                l.setCategoria_id_fk(categoria_id);
+                l.setNumero_paginas(n_paginas);
+                l.setEstado(estado);
+                return l;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return l;
+    }
 }
