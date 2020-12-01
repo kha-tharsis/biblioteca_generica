@@ -19,7 +19,7 @@ public class ActualizarUsuario extends JFrame {
     public ActualizarUsuario(Usuario usuario){
         super("Menu");
         setVisible(true);
-        setSize(350,350);
+        setSize(350,200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         add(panel1);
@@ -49,14 +49,14 @@ public class ActualizarUsuario extends JFrame {
                     int fono = 0;
                     try {
                         fono = Integer.parseInt(f);
+
+                        daoUsuario.actualizarDatosUsuario(correo,fono,usuario.getId());
+                        JOptionPane.showMessageDialog(null, "Datos actualizados correctamente");
+                        MenuUsuario meus = new MenuUsuario(usuario);
+                        dispose();
                     } catch (NumberFormatException excepcion) {
                         JOptionPane.showMessageDialog(null, "Ingrese datos numericos en el numero");
                     }
-                    daoUsuario.actualizarDatosUsuario(correo,fono,usuario.getId());
-
-                    JOptionPane.showMessageDialog(null, "Datos actualizados correctamente");
-                    InicioSesion is = new InicioSesion();
-                    dispose();
                 }
 
             }

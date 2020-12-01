@@ -101,11 +101,25 @@ public class LibroMenu extends JFrame{
         eliminarbtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                tablemodel.setRowCount(0);
                 txtdisponible1.setText(Integer.toString(daoLibro.cantidadLibros(1)));
                 txtNodiponible0.setText(Integer.toString(daoLibro.cantidadLibros(0)));
 
-                //eliminar libro
+                int fila = tablalibros.getSelectedRow();
+                if (fila < 1){
+                    JOptionPane.showMessageDialog(null,"Selecione un libro de la tabla","Selecionar",2);
+                }else {
+                    try {
+                        //int eliminar = (int) tablemodel.getValueAt(fila,0);
+                        String eliminar = tablemodel.getValueAt(fila,0).toString();
+                        tablemodel.removeRow(fila);
+                        daoLibro.deleteLibro(eliminar);
+                        JOptionPane.showMessageDialog(null,"El libro ha sido eliminado");
+                    }catch (Exception e){
+                        JOptionPane.showMessageDialog(null,"ERROR al eliminar" + e.getMessage());
+                    }
+                    //String delete = tablemodel.getValueAt(fila,0).toString();
+
+                }
             }
         });
 

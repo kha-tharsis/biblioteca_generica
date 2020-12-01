@@ -73,7 +73,7 @@ public class DaoUsuario {
     public void actualizarDatosUsuario(String correo,int fono,int id){
         String sql = "UPDATE usuario " +
                 "SET correo = '"+correo+"'," +
-                "SET fono = "+fono+"" +
+                "fono = "+fono+" " +
                 "WHERE id = "+id+"";
         try {
             this.con.getCon()
@@ -82,5 +82,10 @@ public class DaoUsuario {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public boolean correoRutDisponible(){
+
+        return false;
     }
 }

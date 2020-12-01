@@ -54,7 +54,8 @@ public class CrearUsuario extends JFrame{
 
                         daoUsuario.addUser(rut, pass, nombre, apellido, correo, fecha_nacimiento, telefono);
                         JOptionPane.showMessageDialog(null, "Usuario creado exitosamente");
-                        limpiarTxt();
+                        InicioSesion is = new InicioSesion();
+                        dispose();
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "Alguno de los valores ingresados pueden no ser validos");
                     }
@@ -62,14 +63,5 @@ public class CrearUsuario extends JFrame{
             }
         });
 
-    }
-    private void limpiarTxt(){
-        txtrut.setText("");
-        passwordField1.setText("");
-        txtnombre.setText("");
-        txtapellido.setText("");
-        txtcorreo.setText("");
-        txtfechanaci.setText("");
-        txtfono.setText("");
     }
 }

@@ -6,12 +6,7 @@ import com.biblioteca_generica.model.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -272,6 +267,16 @@ public class MenuUsuario extends JFrame {
             public void mouseMoved(MouseEvent e) {
                 super.mouseMoved(e);
                 labelActualizarDatos.setForeground(Color.black);
+            }
+        });
+
+        labelActualizarDatos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                ActualizarUsuario actualizar = new ActualizarUsuario(usuario);
+                actualizar.setVisible(true);
+                dispose();
             }
         });
     }
