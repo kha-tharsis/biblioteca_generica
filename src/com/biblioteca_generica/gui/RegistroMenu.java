@@ -4,6 +4,7 @@ import com.biblioteca_generica.dao.DaoLibro;
 import com.biblioteca_generica.dao.DaoRegistro;
 import com.biblioteca_generica.dao.DaoUsuario;
 import com.biblioteca_generica.model.Conexion;
+import com.biblioteca_generica.model.Libro;
 import com.biblioteca_generica.model.Registro;
 import com.biblioteca_generica.model.Usuario;
 
@@ -175,6 +176,8 @@ public class RegistroMenu extends JFrame{
                     JOptionPane.showMessageDialog(null, "Porfavor,seleccione SOLO un registro");
                 } else if (cuentaFilasSeleccionadas == 1) {
                     String est = (String) model.getValueAt(tableRegistros.getSelectedRow(), 2);
+                    Libro l = daoLibro.getLibro(est);
+                    DatosLibro dl = new DatosLibro(l);
                 }
             }
         });
@@ -182,7 +185,16 @@ public class RegistroMenu extends JFrame{
         buttonVerDatosUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-
+                int cuentaFilasSeleccionadas = tableRegistros.getSelectedRowCount();
+                if (cuentaFilasSeleccionadas == 0) {
+                    JOptionPane.showMessageDialog(null, "Porfavor, seleccione un registro");
+                } else if (cuentaFilasSeleccionadas > 1) {
+                    JOptionPane.showMessageDialog(null, "Porfavor,seleccione SOLO un registro");
+                } else if (cuentaFilasSeleccionadas == 1) {
+                    String est = (String) model.getValueAt(tableRegistros.getSelectedRow(), 1);
+                    Usuario u = daoUsuario.getUserFromRut(est);
+                    DatosUsuario dl = new DatosUsuario(u);
+                }
             }
         });
     }
