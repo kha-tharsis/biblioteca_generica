@@ -148,7 +148,7 @@ public class LibroMenu extends JFrame{
                     }
                     tablemodel.setRowCount(0);
                     List<Libro> allLibros;
-                    allLibros = daoLibro.getLibrosDisponibles();
+                    allLibros = daoLibro.getAllLibros();
                     for(Libro libro : allLibros) {
                         Datos[0] = Integer.toString(libro.getId());
                         Datos[1] = libro.getTitulo();
@@ -157,7 +157,7 @@ public class LibroMenu extends JFrame{
                         Datos[4] = daoLibro.getCategoriaPorId(libro.getCategoria_id_fk());
                         Datos[5] = Integer.toString(libro.getNumero_paginas());
                         Datos[6] = daoLibro.getEstadoPorInt(libro.getEstado());
-
+                        System.out.println(Datos[1]);
 
                         tablemodel.addRow(Datos);
                         tablalibros.setModel(tablemodel);

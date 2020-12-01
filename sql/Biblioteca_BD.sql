@@ -1,4 +1,5 @@
---DB version 0.2
+--DB version 0.3
+--Creacion de la Base de datos
 DROP DATABASE IF EXISTS biblioteca_generica;
 CREATE DATABASE biblioteca_generica;
 USE biblioteca_generica;
@@ -10,15 +11,6 @@ CREATE TABLE categoria(
     PRIMARY KEY(id),
     UNIQUE(categoria)
 );
-
-INSERT INTO categoria(categoria) VALUES ('Biografía'),
-					('Cuento'),
-					('Drama'),
-					('Ficción'),
-					('Horror'),
-					('Novela'),
-					('Suspenso'),
-					('Sagrado');
 
 					
 CREATE TABLE libro(
@@ -34,20 +26,6 @@ CREATE TABLE libro(
     FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
 );
 
-SET @biografia_id = (SELECT id FROM categoria WHERE categoria = 'Biografía');
-SET @cuento_id    = (SELECT id FROM categoria WHERE categoria = 'Cuento');
-SET @drama_id     = (SELECT id FROM categoria WHERE categoria = 'Drama');
-SET @ficcion_id   = (SELECT id FROM categoria WHERE categoria = 'Ficción');
-SET @horror_id    = (SELECT id FROM categoria WHERE categoria = 'Horror');
-SET @novela_id    = (SELECT id FROM categoria WHERE categoria = 'Novela');
-SET @suspenso_id  = (SELECT id FROM categoria WHERE categoria = 'Suspenso');
-SET @sagrado_id   = (SELECT id FROM categoria WHERE categoria = 'Sagrado');
-
-INSERT INTO libro(titulo,fecha_publicacion,autor,categoria_id_fk,numero_paginas) VALUES('Le Petit Prince','1943-09-06','Antoine de Saint-Exupéry',@drama_id,96),
-										       ('The Pit and the Pendulum','1836-05-21','Edgar Allan Poe',@cuento_id,344),
-										       ('Misery','1987-06-08','Stephen King',@horror_id,320),
-										       ('The Da Vinci Code','2003-04-20','Dan Brown',@suspenso_id,656),
-										       ('Метро 2033','2005-06-12','Dmitry Glukhovsky',@novela_id,348);
 
 
 CREATE TABLE tipo_usuario(
@@ -57,8 +35,6 @@ CREATE TABLE tipo_usuario(
     PRIMARY KEY(id)
 );
 
-INSERT INTO tipo_usuario(tipo_usuario) VALUES('Administrador'),
-					     ('Usuario');
 
 CREATE TABLE usuario(
     id INT AUTO_INCREMENT,
@@ -77,11 +53,6 @@ CREATE TABLE usuario(
     UNIQUE (correo)
 );
 
-SET @admin_id = (SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Administrador');
-SET @user_id  = (SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Usuario');
-
-INSERT INTO usuario VALUES(NULL,'12123456-7',SHA2('111',0),'Eduardo Alberto','Pérez Figueroa','eapf@gmail.com','1985-10-22',982310581,@admin_id),
-			  (NULL,'17152325-7',SHA2('222',0),'John Paul','Rey Casto','doggo@gmail.com','1992-12-11',923419730,@user_id);
 
 
 CREATE TABLE estado_registro(
@@ -91,10 +62,6 @@ CREATE TABLE estado_registro(
     PRIMARY KEY (id)
 );
 
-INSERT INTO estado_registro VALUES  (NULL,"Reservado"),
-                                    (NULL,"Esperando Devolución"),
-                                    (NULL,"Fecha limite exedida"),
-                                    (NULL,"Devuelto");
 
 
 CREATE TABLE registro(
@@ -111,11 +78,6 @@ CREATE TABLE registro(
     FOREIGN KEY(estado_registro_id_fk) REFERENCES estado_registro(id)
 );
 
-INSERT INTO registro VALUES (NULL,1,1,"2020-10-22","2020-11-22",1),
-                            (NULL,2,2,"2020-10-26","2020-11-26",1);
-
-
-UPDATE registro SET estado_registro_id_fk = 4 WHERE id = 1;
 
 
 CREATE TABLE historial_libro(
@@ -132,6 +94,8 @@ CREATE TABLE historial_libro(
     FOREIGN KEY(libro_id_fk) REFERENCES libro(id),
     FOREIGN KEY(categoria_id_fk) REFERENCES categoria(id)
 );
+
+--Creacion de Triggers
 
 -- Trigger para agregar un historial de libros al hacer un update
 DELIMITER //
@@ -158,6 +122,8 @@ BEGIN
 END //
 DELIMITER ;
 
+
+--Creacion de Procedimientos almacenados
 
 -- Procedimiento para limitar el pedido de libros
 DELIMITER //
@@ -208,9 +174,8 @@ BEGIN
 END //
 DELIMITER ;
 
--- CALL para probar
-CALL agregar_libro('The Call of Cthulhu','1928-02-05','H.P. Lovecraft','Cuento',54);
 
+--Creacion de la Funcion
 
 -- Funcion que retorna la cantidad de libros disponibles(1) y no disponibles(0)
 DELIMITER //
@@ -219,6 +184,68 @@ BEGIN
     RETURN (SELECT COUNT(libro.id) FROM libro WHERE estado = _estado);
 END //
 DELIMITER ;
+
+
+
+-- INSERTS
+
+
+INSERT INTO categoria(categoria) VALUES ('Biografía'),
+					('Cuento'),
+					('Drama'),
+					('Ficción'),
+					('Horror'),
+					('Novela'),
+					('Suspenso'),
+					('Sagrado');
+
+
+
+SET @biografia_id = (SELECT id FROM categoria WHERE categoria = 'Biografía');
+SET @cuento_id    = (SELECT id FROM categoria WHERE categoria = 'Cuento');
+SET @drama_id     = (SELECT id FROM categoria WHERE categoria = 'Drama');
+SET @ficcion_id   = (SELECT id FROM categoria WHERE categoria = 'Ficción');
+SET @horror_id    = (SELECT id FROM categoria WHERE categoria = 'Horror');
+SET @novela_id    = (SELECT id FROM categoria WHERE categoria = 'Novela');
+SET @suspenso_id  = (SELECT id FROM categoria WHERE categoria = 'Suspenso');
+SET @sagrado_id   = (SELECT id FROM categoria WHERE categoria = 'Sagrado');
+
+INSERT INTO libro(titulo,fecha_publicacion,autor,categoria_id_fk,numero_paginas) VALUES('Le Petit Prince','1943-09-06','Antoine de Saint-Exupéry',@drama_id,96),
+										       ('The Pit and the Pendulum','1836-05-21','Edgar Allan Poe',@cuento_id,344),
+										       ('Misery','1987-06-08','Stephen King',@horror_id,320),
+										       ('The Da Vinci Code','2003-04-20','Dan Brown',@suspenso_id,656),
+										       ('Метро 2033','2005-06-12','Dmitry Glukhovsky',@novela_id,348);
+
+
+
+INSERT INTO tipo_usuario(tipo_usuario) VALUES   ('Administrador'),
+					                            ('Usuario');
+
+
+SET @admin_id = (SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Administrador');
+SET @user_id  = (SELECT id FROM tipo_usuario WHERE tipo_usuario = 'Usuario');
+
+INSERT INTO usuario VALUES  (NULL,'12123456-7',SHA2('111',0),'Eduardo Alberto','Pérez Figueroa','eapf@gmail.com','1985-10-22',982310581,@admin_id),
+			                (NULL,'17152325-7',SHA2('222',0),'John Paul','Rey Casto','doggo@gmail.com','1992-12-11',923419730,@user_id);
+
+
+
+INSERT INTO estado_registro VALUES  (NULL,"Reservado"),
+                                    (NULL,"Esperando Devolución"),
+                                    (NULL,"Fecha limite exedida"),
+                                    (NULL,"Devuelto");
+
+
+
+
+INSERT INTO registro VALUES (NULL,1,1,"2020-10-22","2020-11-22",1),
+                            (NULL,2,2,"2020-10-26","2020-11-26",1);
+
+
+
+
+-- CALL para probar
+CALL agregar_libro('The Call of Cthulhu','1928-02-05','H.P. Lovecraft','Cuento',54);
 
 -- SELECT para probar la function
 SELECT seleccionar_cantidad_libros(1);
