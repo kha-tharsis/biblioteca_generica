@@ -11,8 +11,8 @@ Diego Marchant | Juan Reyes
 Se ha encargado a nuestro equipo la creación de un software para llevar a cabo las operaciones de una biblioteca,
 entre esas operaciones se encuentra:
 
--Tener 2 tipos de usuario (administrador y usuario común)
--Registrar un usuario (si es que no se encuentra en el sistema)
+     -Tener 2 tipos de usuario (administrador y usuario común)
+     -Registrar un usuario (si es que no se encuentra en el sistema)
 -Un menú para el administrador en el cuál podrá:
 
     -Revisar los libros en el sistema.
@@ -46,4 +46,6 @@ Para ejecutar el programa es necesario tener :
 
 Después de tener lo antes mencionado debemos dirigirnos a la carpeta sql y copiar el contenido del archivo 
 Biblioteca_BD.sql(esto se puede hacer con cualquier editor de texto) y copiarlo en la consola de mariadb.
-Para finalizar debemos ir a la carpeta out/artifacts/Biblioteca_Generica_jar y darle doble click al archivo .jar
+Para finalizar debemos ir a la carpeta:
+
+out/artifacts/Biblioteca_Generica_jar y darle doble click al archivo .jar
