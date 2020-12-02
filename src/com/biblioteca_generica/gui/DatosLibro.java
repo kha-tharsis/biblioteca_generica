@@ -22,7 +22,7 @@ public class DatosLibro extends JFrame {
     private JLabel labelEstado;
 
     public DatosLibro(Libro libro){
-        super("Crear Usuario");
+        super("Datos del Libro");
         setVisible(true);
         setSize(300,300);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

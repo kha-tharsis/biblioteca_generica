@@ -19,9 +19,9 @@ public class DatosUsuario extends JFrame{
     private Usuario usuario;
 
     public DatosUsuario(Usuario usuario){
-        super("Crear Usuario");
+        super("Datos del Usuario");
         setVisible(true);
-        setSize(350,350);
+        setSize(320,320);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         add(panel1);
