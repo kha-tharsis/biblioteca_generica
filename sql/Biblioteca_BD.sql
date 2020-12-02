@@ -190,14 +190,14 @@ DELIMITER ;
 -- INSERTS
 
 
-INSERT INTO categoria(categoria) VALUES ('Biografía'),
-					('Cuento'),
-					('Drama'),
-					('Ficción'),
-					('Horror'),
-					('Novela'),
-					('Suspenso'),
-					('Sagrado');
+INSERT INTO categoria(categoria) VALUES('Biografía'),
+				       ('Cuento'),
+				       ('Drama'),
+				       ('Ficción'),
+				       ('Horror'),
+				       ('Novela'),
+				       ('Suspenso'),
+				       ('Sagrado');
 
 
 
@@ -234,7 +234,6 @@ INSERT INTO estado_registro VALUES  (NULL,"Reservado"),
                                     (NULL,"Esperando Devolución"),
                                     (NULL,"Fecha limite exedida"),
                                     (NULL,"Devuelto");
-
 
 
 
