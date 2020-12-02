@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Biblioteca_Generica:jar">
+  <artifact type="jar" name="Biblioteca_Generica:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Biblioteca_Generica_jar</output-path>
     <root id="archive" name="Biblioteca_Generica.jar">
       <element id="module-output" name="Biblioteca_Generica" />
